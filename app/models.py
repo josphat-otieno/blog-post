@@ -1,4 +1,4 @@
-
+from . import db
 
 class Quote:
     '''
@@ -8,4 +8,3 @@ class Quote:
         self.author = author
         self.quote = quote
 
-        
