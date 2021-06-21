@@ -1,27 +1,43 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField
-from wtforms import ValidationError
-from wtforms.validators import Required,Email,EqualTo
+from flask import render_template, redirect, url_for,flash, request
 from ..models import User
-from wtforms import StringField,PasswordField,BooleanField,SubmitField
+from . import auth
+from .forms import RegistrationForm, LoginForm
+from .. import db
+from flask_login import login_user, logout_user, login_required
+from ..email import mail_message
 
-class RegistrationForm(FlaskForm):
-    email = StringField('Your Email Address', validators=[Required(),Email()])
-    username  = StringField('Enter your username', validators=[Required()])
-    password = PasswordField('Password', validators=[Required(), EqualTo('password_confirm',message ='Password must match')])
-    password_confirm =  PasswordField('Confirm Passwords',validators = [Required()])
-    submit = SubmitField('Sign Up')
+@auth.route('/login', methods = ['GET','POST'])
+def login():
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        user = User.query.filter_by(email = login_form.email.data).first()
+        if user is not None and user.verify_password(login_form.password.data):
+            login_user(user,login_form.remember.data)
+            return redirect(request.args.get('next') or url_for('main.index'))
 
-    def validate_email(self, data_field):
-        if User.query.filter_by(email = data_field.data).first():
-            raise ValidationError('There is an account with that email')
-    
-    def validate_username(self,data_field):
-        if User.query.filter_by(username = data_field.data).first():
-            raise ValidationError('That username is taken')
+        flash('Invalid username or Password')
 
-class LoginForm(FlaskForm):
-    email = StringField('Your Email Address',validators=[Required(),Email()])
-    password = PasswordField('Password',validators =[Required()])
-    remember = BooleanField('Remember me')
-    submit = SubmitField('Sign In')
+    title = "Pitch application login"
+    return render_template('auth/login.html',login_form = login_form,title=title)
+
+@auth.route('/register',methods = ["GET","POST"])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(email = form.email.data, username = form.username.data,password = form.password.data)
+        db.session.add(user)
+        db.session.commit()
+
+        mail_message("Welcome to the best pitches","email/welcome_user",user.email,user=user)
+        
+        return redirect(url_for('auth.login'))
+    title = "New Pitch Account"
+    return render_template('auth/register.html',registration_form = form, title=title)
+
+
+
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("main.index"))

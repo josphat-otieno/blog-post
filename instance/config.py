@@ -1,1 +1,3 @@
 SECRET_KEY='josee'
+MAIL_USERNAME='egesacollins92@gmail.com'
+MAIL_PASSWORD='0704206515'

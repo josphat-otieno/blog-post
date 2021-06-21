@@ -22,8 +22,10 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255))
-    email = db.Column(db.String(60))
-    password_hash = db.Column(db.String(32))
+    email = db.Column(db.String(255))
+    bio = db.Column(db.String(255))
+    profile_pic_path = db.Column(db.String())
+    password_hash = db.Column(db.String(255))
     posts = db.relationship('Post', backref='user', lazy = 'dynamic')
     comment = db.relationship('Comment', backref='user', lazy = 'dynamic')
 
@@ -55,18 +57,28 @@ class User(UserMixin, db.Model):
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(255))
     title = db.Column(db.String(255))
     description = db.Column(db.String(255))
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def save(self):
+    def save_post(self):
         db.session.add(self)
         db.session.commit()
 
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    @classmethod
+    def get_user_posts(cls,id):
+        posts = Post.query.filter_by(user_id = id).order_by(Post.date_posted.desc()).all()
+        return posts
+
+    @classmethod
+    def get_all_posts(cls):
+        return Post.query.order_by(Post.date_posted).all()
 
     def __repr__(self):
         return f'Post:{self.title}'
@@ -91,6 +103,13 @@ class Comment(db.Model):
     @classmethod
     def get_comments(cls, id):
         comments = Comment.query.filter_by(post_id = id).all()
+        return comments
+
+    @classmethod
+    def delete_comment(cls, id):
+        delete_comment = Comment.query.filter_by(id = id).first()
+        db.session.delete(delete_comment)
+        db.session.commit()
 
     
     def __repr__(self):
