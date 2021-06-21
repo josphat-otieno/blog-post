@@ -6,6 +6,19 @@
 {% block content %}
 
 <div class="jumbotron">
+    <ul style="list-style: none;">
+        {% for post in posts %}
+            <div class="list-group">
+                <a href="#">
+                    <div class="list-item">
+                    </div>
+                    <p>{{post.title}}</p>
+                    <h4>{{ post.content }}</h4>
+                    <h6> Posted by {{post.user.username}}.</h6>
+                </a>
+            </div>
+        {% endfor %}
+</ul>
 
 </div>
 {% endblock %}
