@@ -14,27 +14,27 @@ def index():
     '''
     view root page that returns the view index page and its data
     '''
-    quote = get_random_quote()
+    
     posts = Post.get_all_posts()
 
-    return render_template('index.html', quote=quote, posts = posts, current_user = current_user)
+    return render_template('index.html', posts = posts, current_user = current_user)
 
 @main.route('/new_post/new', methods=['GET','POST'])
 def new_post():
-    form = PostForm()
-    if form.validate_on_submit():
-        title = form.title.data
-        description = form.description.data
-        user_id = current_user.get_current_object().id
-        new_post = Post(user_id=user_id, title=title, description = description)
+    post_form = PostForm()
+    if post_form.validate_on_submit():
+        title = post_form.title.data
+        content = post_form.content.data
+        user_id = current_user._get_current_object().id
+        new_post = Post(user_id=user_id, title=title, content=content)
         new_post.save_post()
 
         db.session.add(new_post)
         db.session.commit()
 
-        return redirect(url_for(main,index))
+        return redirect(url_for('main.index'))
 
-    return render_template ('new_post.html', form = form )
+    return render_template ('new_post.html', post_form = post_form )
 
 @main.route('/user/<name>')
 def profile(name):

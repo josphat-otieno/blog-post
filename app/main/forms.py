@@ -13,7 +13,7 @@ class CommentsForm(FlaskForm):
 
 class PostForm(FlaskForm):
     title = StringField("Title", validators=[Required()])
-    description = TextAreaField("Wrie your blog..", validators=[Required()])
+    content = TextAreaField("Wrie your blog..", validators=[Required()])
     submit = SubmitField("Submit Pitch")
 
 
