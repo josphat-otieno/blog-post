@@ -25,7 +25,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(60))
     password_hash = db.Column(db.String(32))
     posts = db.relationship('Post', backref='user', lazy = 'dynamic')
-    comment = db.relationshp('Comment', backref='user', lazy = 'dynamic')
+    comment = db.relationship('Comment', backref='user', lazy = 'dynamic')
 
 
     @property
