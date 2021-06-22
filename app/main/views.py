@@ -54,6 +54,23 @@ def new_Comment(id):
     # all_comments=Comment.query.filter_by(post_id=id)
     return render_template('comment.html', comment_form=comment_form, comments=comments,post=post)
 
+@main.route('/update/<int:id>', methods=['GET', 'POST'])
+def update_post(id):
+    post = Post.query.get_or_404(id)
+    post_form = PostForm()
+    if post_form.validate_on_submit():
+        post.title = post_form.title.data
+        post.content = post_form.content.data
+        db.session.add(post)
+        db.session.commit()
+
+        return redirect(url_for('main.index'))
+    elif request.method == 'GET':
+        post_form.title.data = post.title
+        post_form.content.data = post.content
+    return render_template('edit_post.html',post=post, post_form=post_form)
+
+
 @main.route('/user/<name>')
 def profile(name):
     user = User.query.filter_by(username = name).first()
