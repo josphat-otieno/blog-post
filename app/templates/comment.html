@@ -1,6 +1,6 @@
 {% extends 'bootstrap/base.html' %}
 {% import 'bootstrap/wtf.html' as wtf %}
-{% import 'macros.html' as macro %}
+
 {% block navbar %}
 {% include 'navbar.html'%}
 {%endblock%}
@@ -11,7 +11,7 @@
 <div class="row">
     <div class="card" style="font-family: Pangolin;">
         <div class="card-header text-center"> 
-            <h4><a>{{post.title}}</a></h4>
+            <h4><a>{{post.name}}</a></h4>
             <div class="card-body">
                 <h5 class="card-text text-center">{{post.comment}}.</h5>
             </div>
@@ -25,11 +25,29 @@
         </div>
     </div>
     <hr>
-    <div class="jumbotron">
-        <div class="col-md-12">
-            <h4 style="color:  lime; text-align: center;text-underline-position: below; font-size: large;font-family: Pangolin;"></h4>
-            {{ macro.displayComment(comment) }}
+
+    <ul>
+        <h1>COMMENTS:</h1>
+        {% if comments %}
+        {% for comment in comments %}
+        <div class="row text-center">
+            <div class="card">
+                <div card-header>
+                    <p>Posted by: {{comment.user.username}}</p>
+                </div>
+                <div class="card-body">
+                    <p style="color: brown; ">{{ comment.comment }}</p>
+                </div>
+                <hr>
+            </div>
         </div>
-    </div>
+        {% endfor %}
+        {% else %}
+    
+        <h3>Be the first to comment on this Pitch !</h3>
+        {%endif%}
+    </ul>
+   
 </div>
 {% endblock %}
+

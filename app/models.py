@@ -85,7 +85,7 @@ class Post(db.Model):
         return f'Post:{self.title}'
 
 
-@classmethod                            
+                        
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key = True)
