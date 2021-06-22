@@ -62,31 +62,37 @@ def updatePost(id):
     if post_form.validate_on_submit():
         post.title = post_form.title.data
         post.content = post_form.content.data
+        user_id = current_user._get_current_object().id
+       
         db.session.add(post)
         db.session.commit()
 
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.index',user_id=user_id))
     elif request.method == 'GET':
         post_form.title.data = post.title
         post_form.content.data = post.content
+       
     return render_template('edit_post.html',post=post, post_form=post_form)
 
 @main.route('/delete_post/<int:id>', methods=['GET', 'POST'])
 @login_required
 def deletePost(id):
     post = Post.query.get_or_404(id)
+    user_id = current_user._get_current_object().id
     db.session.delete(post)
     db.session.commit()
-    return redirect(url_for('main.index')) 
+    flash('Blog succesfully deleted')
+    return redirect(url_for('main.index',user_id=user_id)) 
 
 @main.route('/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def deleteComment(id):
     comment =Comment.query.get_or_404(post_id=id)
+    
     db.session.delete(comment)
     db.session.commit()
     flash('comment succesfully deleted')
-    return redirect (url_for('main.index'))
+    return redirect (url_for('main.index', post_id=id))
 
 @main.route('/user/<name>')
 def profile(name):
