@@ -55,6 +55,7 @@ def new_Comment(id):
     return render_template('comment.html', comment_form=comment_form, comments=comments,post=post)
 
 @main.route('/update/<int:id>', methods=['GET', 'POST'])
+@login_required
 def update_post(id):
     post = Post.query.get_or_404(id)
     post_form = PostForm()
@@ -71,6 +72,7 @@ def update_post(id):
     return render_template('edit_post.html',post=post, post_form=post_form)
 
 @main.route('/delete_post/<int:id>', methods=['GET', 'POST'])
+@login_required
 def delete_post(id):
     post = Post.query.get_or_404(id)
     db.session.delete(post)
@@ -78,6 +80,7 @@ def delete_post(id):
     return redirect(url_for('main.index')) 
 
 @main.route("/post/<int:id>/<int:comment_id>/delete")
+@login_required
 def delete_comment(id, comment_id):
     post = Post.query.filter_by(id = id).first()
     comment = Comment.query.filter_by(id = comment_id).first()
