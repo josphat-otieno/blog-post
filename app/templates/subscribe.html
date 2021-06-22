@@ -1,0 +1,13 @@
+{% import 'bootstrap/wtf.html' as wtf %}
+{% extends 'bootstrap/base.html' %}
+
+
+{%block content%}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container text-center">
+      <h2 class="card-title h1-responsive font-bold">Subscribe to our services</h2>
+    <div class="cotainer">
+        {{ wtf.quick_form(subscription_form)}}
+    </div>
+{%endblock%}
+

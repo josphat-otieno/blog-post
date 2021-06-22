@@ -4,8 +4,9 @@ from flask import render_template, request, redirect ,url_for ,abort,flash
 from . import main
 from .. import db, photos
 from flask_login import login_required, current_user
-from app.models import Post, User,Comment
-from .forms import PostForm,CommentsForm, UpdateProfile
+from app.models import Post, User,Comment, Subscribers
+from .forms import PostForm,CommentsForm, SubscriptionForm, UpdateProfile
+from  ..email import mail_message
 
 
 @main.route('/')
@@ -135,4 +136,21 @@ def update_pic(name):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile',name=name))
+
+@main.route('/subcscribe', methods = ['GET','POST'])
+def subscription():
+    subscription_form= SubscriptionForm()
+    try:
+        if subscription_form.validate_on_submit():
+            subscriber = Subscribers(email = subscription_form.email.data)
+            db.session.add(subscriber)
+            db.session.commit()
+            flash('You are now subscribed!')
+            mail_message("Welcome to Blog On","email/welcome",subscriber.email,subscriber=subscriber)
+            print("sent")
+            return redirect(url_for('main.index'))
+    except:
+        return redirect(url_for('main.index'))
+
+    return render_template ('subscribe.html',  subscription_form = subscription_form)
 

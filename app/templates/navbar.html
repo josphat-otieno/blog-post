@@ -20,6 +20,7 @@
               <li style="color: mintcream">{{current_user.username}}</li>
               <li><a style="color: green; font-size: larger; font-weight: bold;" href="{{url_for('auth.logout')}}">Sign out</a></li>
               {% else %}
+              <li><a style="color: green; font-size: larger; font-weight: bold;" href="{{url_for('main.subscription')}}">Subscribe</a></li>
               <li><a style="color: green; font-size: larger; font-weight: bold;" href="{{url_for('auth.login')}}">Sign in</a></li>
               {%endif%}
             </ul>

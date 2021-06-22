@@ -107,16 +107,16 @@ class Comment(db.Model):
     def __repr__(self):
         return f'Post:{self.comment}'
 
-    class Subscribers(UserMixin, db.Model):
+class Subscribers(UserMixin, db.Model):
 
-        __tablename__ = "subscribers"
+    __tablename__ = "subscribers"
 
-        id= db.Column(db.Integer, primary_key=True)
-        email = db.Column(db.String, unique=True)
+    id= db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String, unique=True)
 
-        def save_subscriber(self):
-            db.session.add(self)
-            db.session.commit()
+    def save_subscriber(self):
+        db.session.add(self)
+        db.session.commit()
 
         def __repr__(self):
 

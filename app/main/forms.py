@@ -16,4 +16,8 @@ class PostForm(FlaskForm):
     content = TextAreaField("Wrie your blog..", validators=[Required()])
     submit = SubmitField("Submit Pitch")
 
+class SubscriptionForm(FlaskForm):
+    email= StringField("Enter a valid email address", validators=[Required()])
+    submit = SubmitField('Subscribe')
+
 
