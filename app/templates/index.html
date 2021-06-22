@@ -19,6 +19,11 @@
                 <h6> Posted by {{post.user.username}}.</h6>
                 <p>Date: {{post.date_posted}}</p>
             </div>
+            <a href="{{url_for('.new_comment ,post_id=post.id')}}" class="btn btn-success">Comment</a>
+				<a href="{{url_for('main.index')}}" class="btn btn-primary btn-sm"><i></i>Like
+					<span></span></a>
+				<a href="{{url_for('main.index')}}" class="btn btn-warning btn-sm"><i
+						class="far fa-thumbs-up"></i>Dislike<span</span></a>
         </div>
 </div>
 {% endfor %}
