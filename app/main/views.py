@@ -70,6 +70,13 @@ def update_post(id):
         post_form.content.data = post.content
     return render_template('edit_post.html',post=post, post_form=post_form)
 
+@main.route('/delete_post/<int:id>', methods=['GET', 'POST'])
+def delete_post(id):
+    post = Post.query.get_or_404(id)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('main.index')) 
+
 
 @main.route('/user/<name>')
 def profile(name):
