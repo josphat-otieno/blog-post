@@ -3,11 +3,16 @@
 
 
 {%block content%}
-<div class="jumbotron jumbotron-fluid">
-    <div class="container text-center">
-      <h2 class="card-title h1-responsive font-bold">Subscribe to our services</h2>
-    <div class="cotainer">
-        {{ wtf.quick_form(subscription_form)}}
+<!-- <div class="jumbotron" style="background-color: #14213d;"> -->
+    <div class="container-fluid" style="background-color: #14213d;">
+
+        <div class="container">
+            <h2>Subscribe to our service to recieve daily updates</h2>
+            {{ wtf.quick_form(subscription_form)}}
+        </div>
+        
+    </div>
+        
     </div>
 {%endblock%}
 

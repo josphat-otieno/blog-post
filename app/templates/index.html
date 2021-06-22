@@ -2,31 +2,53 @@
 {% block navbar %}
 {% include 'navbar.html'%}
 {%endblock%}
-
 {% block content %}
-
-<div class="container">
-    
-        {% for post in posts %}
-        <div class="card">
-            <div class="card-header">
-                <p>{{post.title}}</p>
-            </div>
-            <div class="card-body">
-                <h4>{{ post.content }}</h4>
-            </div>
-            <div class="card-footer">
-                <h6> Posted by {{post.user.username}}.</h6>
-                <p>Date: {{post.date_posted}}</p>
-            </div>
-            
-            <a href="{{url_for('main.new_Comment',id=post.id)}}" class="btn btn-success">Comment</a>
-            {% if current_user.is_authenticated %}
-            <a href="{{url_for('main.updatePost',id = post.id)}}" class="btn btn-info btn-md"><span class="glyphicon glyphicon-plus"></span>Edit Post</a>
-					<a href="{{url_for('main.deletePost',id=post.id)}}" class="btn btn-info btn-md"><span class="glyphicon glyphicon-trash"></span>Delete</a>
-            
-            {% endif %}
+    <header>
+        {% if title %}
+        <title>{{title}}</title>
+        {% else %}
+        <title>Bloggers Website</title>
+        {% endif %}
+    </header>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courgette&family=Roboto:ital,wght@1,100&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+<div class="container-fulid" style="background-color: #14213d;">
+    <div class="container" style="margin-top: 3px;">
+        <div>
+            <h2 class="text text-center text-success">DAILY QUOTES</h2>
+            <p style="font-family: Lobster; text-align: center; font-size: 40px; color: honeydew;" >{{quote.quote}}</p>
+            <h2 style="font-family: Lobster; text-align: center; color: honeydew;">~ {{quote.author}} ~</h2>
         </div>
+
+        <h1 class="text text-center text-success">BLOGS</h1>
+        {% for post in posts %}
+        <div class="panel">
+            <div style="margin-left: 20px;">
+                <h3 style="font-family:Courgette ;">Posted by {{post.user.username}}</h3>
+                <hr>
+                 <h2 style="font-family: Noto Sans JP; color: green;">{{post.title}}</h2>
+              
+                <p style="font-family:Noto Sans JP; font-size: large; font-weight: bold; font-size: 25px;">{{ post.content }}</p>
+                <hr>
+                <p style="font-family: Courgette ; font-size: 20px;">Dated: {{post.date_posted.date()}}  Time:{{post.date_posted.time()}}</p>
+                <a href="{{url_for('main.new_Comment',id=post.id)}}" class="btn btn-success">Comment</a>
+                {% if current_user.is_authenticated %}
+                <a href="{{url_for('main.updatePost',id = post.id)}}" class="btn btn-info btn-md">Edit Post</a>
+                        <a href="{{url_for('main.deletePost',id=post.id)}}" class="btn btn-info btn-md">Delete Post</a>
+                        {% endif %}
+            </div>
+
+        </div>       
+      {% endfor %}  
 </div>
-{% endfor %}
 {% endblock %}
+</div>
+
+

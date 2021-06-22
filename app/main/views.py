@@ -1,3 +1,4 @@
+from datetime import timedelta
 from sqlalchemy.sql.schema import Index
 from ..requests import get_random_quote
 from flask import render_template, request, redirect ,url_for ,abort,flash
@@ -17,8 +18,9 @@ def index():
     '''
     
     posts = Post.get_all_posts()
-
-    return render_template('index.html', posts = posts, current_user = current_user)
+    quote = get_random_quote()
+    title = 'Bloggers'
+    return render_template('index.html', posts = posts, current_user = current_user, quote=quote, title=title)
 
 @main.route('/new_post/new', methods=['GET','POST'])
 def new_post():
@@ -51,9 +53,6 @@ def new_Comment(id):
         db.session.add(new_comment)
         db.session.commit()
 
-        # return redirect(url_for('.new_comment',post_id=id))
-
-    # all_comments=Comment.query.filter_by(post_id=id)
     return render_template('comment.html', comment_form=comment_form, comments=comments,post=post)
 
 @main.route('/update_post/<int:id>', methods=['GET', 'POST'])
@@ -87,13 +86,13 @@ def deletePost(id):
     return redirect(url_for('main.index',user_id=user_id)) 
 
 @main.route('/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
 def deleteComment(id):
     comment =Comment.query.get_or_404(id)
-    user_id = current_user._get_current_object().id
     db.session.delete(comment)
     db.session.commit()
     flash('comment succesfully deleted')
-    return redirect (url_for('main.index', user_id=user_id))
+    return redirect (url_for('main.new_Comment', id=id)) 
 
 @main.route('/user/<name>')
 def profile(name):
@@ -145,7 +144,7 @@ def subscription():
             subscriber = Subscribers(email = subscription_form.email.data)
             db.session.add(subscriber)
             db.session.commit()
-            flash('You are now subscribed!')
+            flash('Thank you for subscribing to our services, You will recieve daily updates on new blogs')
             mail_message("Welcome to Blog On","email/welcome",subscriber.email,subscriber=subscriber)
             print("sent")
             return redirect(url_for('main.index'))

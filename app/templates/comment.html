@@ -8,38 +8,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet">
 {% block content%}
-<div class="row">
+
+<div class="container-fluid" style="background-color: #14213d;">
     <div class="container">
         <div class="row">
             <div class="jumbotron">
                 {{wtf.quick_form(comment_form)}}
             </div>
         </div>
-    </div>
-    <hr>
-    <ul>
-        <h1>COMMENTS:</h1>
+        <hr>
+        <h1 class="text text-center text-success">COMMENTS:</h1>
         {% if comments %}
         {% for comment in comments %}
         <div class="row text-center">
-            <div class="card">
-                <div card-header>
-                    <p>Posted by: {{comment.name}}</p>
-                </div>
-                <div class="card-body">
-                    <p style="color: brown; ">{{ comment.comment }}</p>
-                    <a href="{{url_for('main.deleteComment',user.id=id)}}"> <span class="glyphicon glyphicon-trash">Delete</span>
-                </div>
-                <hr>
-            </div>
         </div>
+        <div class="panel">
+            <h3>Posted by: {{comment.name}}</h3>
+            <p style="font-family: Pangolin; font-size: large; font-weight: bold;">{{ comment.comment }}</p>
+            <p style="font-style: italic; font-size: large;">{{comment.date.date()}} at {{comment.date.time()}}</p>
+            {% if current_user.is_authenticated %}
+            <a href="{{url_for('main.deleteComment',id=comment.id)}}">Delete Comment</a>
+            {% endif %}
+        </div>
+        <hr>
         {% endfor %}
         {% else %}
-    
         <h3>Be the first to comment on this Blog !!</h3>
         {%endif%}
-    </ul>
-   
+    </div>   
 </div>
 {% endblock %}
-
