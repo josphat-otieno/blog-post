@@ -1,6 +1,6 @@
 from sqlalchemy.sql.schema import Index
 from ..requests import get_random_quote
-from flask import render_template, request, redirect ,url_for ,abort
+from flask import render_template, request, redirect ,url_for ,abort,flash
 from . import main
 from .. import db, photos
 from flask_login import login_required, current_user
@@ -54,9 +54,9 @@ def new_Comment(id):
     # all_comments=Comment.query.filter_by(post_id=id)
     return render_template('comment.html', comment_form=comment_form, comments=comments,post=post)
 
-@main.route('/update/<int:id>', methods=['GET', 'POST'])
+@main.route('/update_post/<int:id>', methods=['GET', 'POST'])
 @login_required
-def update_post(id):
+def updatePost(id):
     post = Post.query.get_or_404(id)
     post_form = PostForm()
     if post_form.validate_on_submit():
@@ -73,20 +73,20 @@ def update_post(id):
 
 @main.route('/delete_post/<int:id>', methods=['GET', 'POST'])
 @login_required
-def delete_post(id):
+def deletePost(id):
     post = Post.query.get_or_404(id)
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for('main.index')) 
 
-@main.route("/post/<int:id>/<int:comment_id>/delete")
+@main.route('/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
-def delete_comment(id, comment_id):
-    post = Post.query.filter_by(id = id).first()
-    comment = Comment.query.filter_by(id = comment_id).first()
+def deleteComment(id):
+    comment =Comment.query.get_or_404(post_id=id)
     db.session.delete(comment)
     db.session.commit()
-    return redirect(url_for("main.post", id = post.id))
+    flash('comment succesfully deleted')
+    return redirect (url_for('main.index'))
 
 @main.route('/user/<name>')
 def profile(name):
