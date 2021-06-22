@@ -44,7 +44,8 @@ def new_Comment(id):
     comments = Comment.query.filter_by(post_id=id).all()
     if comment_form.validate_on_submit():
         comment=comment_form.comment.data
-        new_comment=Comment(comment = comment,user_id=current_user._get_current_object().id,post_id=id)
+        name= comment_form.name.data
+        new_comment=Comment(comment = comment,name=name, post_id=id)
         new_comment.save_comment()
 
         db.session.add(new_comment)
@@ -86,14 +87,13 @@ def deletePost(id):
     return redirect(url_for('main.index',user_id=user_id)) 
 
 @main.route('/delete/<int:id>', methods=['GET', 'POST'])
-@login_required
 def deleteComment(id):
-    comment =Comment.query.get_or_404(post_id=id)
-    
+    comment =Comment.query.get_or_404(id)
+    user_id = current_user._get_current_object().id
     db.session.delete(comment)
     db.session.commit()
     flash('comment succesfully deleted')
-    return redirect (url_for('main.index', post_id=id))
+    return redirect (url_for('main.index', user_id=user_id))
 
 @main.route('/user/<name>')
 def profile(name):

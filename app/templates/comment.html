@@ -9,14 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet">
 {% block content%}
 <div class="row">
-    <div class="card" style="font-family: Pangolin;">
-        <div class="card-header text-center"> 
-            <h4><a>{{post.name}}</a></h4>
-            <div class="card-body">
-                <h5 class="card-text text-center">{{post.comment}}.</h5>
-            </div>
-        </div>
-    </div>
     <div class="container">
         <div class="row">
             <div class="jumbotron">
@@ -25,7 +17,6 @@
         </div>
     </div>
     <hr>
-
     <ul>
         <h1>COMMENTS:</h1>
         {% if comments %}
@@ -33,13 +24,11 @@
         <div class="row text-center">
             <div class="card">
                 <div card-header>
-                    <p>Posted by: {{comment.user.username}}</p>
+                    <p>Posted by: {{comment.name}}</p>
                 </div>
                 <div class="card-body">
                     <p style="color: brown; ">{{ comment.comment }}</p>
-                    {% if current_user.is_authenticated %}
-                    <a href="{{url_for('main.deleteComment',post.id=id)}}"> <span class="glyphicon glyphicon-trash">Delete</span>
-                    {% endif %}
+                    <a href="{{url_for('main.deleteComment',user.id=id)}}"> <span class="glyphicon glyphicon-trash">Delete</span>
                 </div>
                 <hr>
             </div>
