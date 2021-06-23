@@ -1,8 +1,8 @@
 <div class="container-fluid" style="background-color: #14213d;">
-  <div class="container-fulid"
-    style="background-color: gray; font-style: normal;font-family: Verdana, Geneva, Tahoma, sans-serif;font-size: large;">
+  <div class="container-fluid"
+    style="background-color: gray; font-style: normal;font-family: Verdana, Geneva, Tahoma, sans-serif;font-size: large;margin-right: 0px;">
   <div class="navbar navbar-dark " role="navigation">
-    <div class="container" style="justify-content: space-between;">
+    <div class="container" style="justify-content: space-between;  float: left;;">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -12,12 +12,11 @@
       </div>
       <div class="navbar-nav">
         <div class="text text-primary">
-          <h2>JOSE BLOG</h2>
           <a style="text-align: center; color:green;  font-size: larger; font-weight: bold;" class="navbar-brand"
             href="/"> Home </a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right" style="margin-right: 70px;">
+          <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
             {% if current_user.is_authenticated %} <a style="text-align: center; color: blue;" class="navbar-brand"
               href="/new_post/new"> Create Blog</a>
             <li><a href="{{url_for('main.profile',name=current_user.username)}}" style="color: mintcream"> Profile</a>
@@ -33,12 +32,7 @@
             {%endif%}
           </ul>
         </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a style="color: green;" href="{{url_for('auth.logout')}}"></a></li>
-            <li><a style="color: green;" href="{{url_for('auth.login')}}"></a></li>
-          </ul>
-        </div>
+        
 
       </div>
     </div>

@@ -68,7 +68,7 @@ class Post(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def delete(self):
+    def delete_post(self):
         db.session.delete(self)
         db.session.commit()
 
@@ -79,7 +79,7 @@ class Post(db.Model):
 
     @classmethod
     def get_all_posts(cls):
-        return Post.query.order_by(Post.date_posted).all()
+        return Post.query.order_by(Post.date_posted.desc()).all()
 
     def __repr__(self):
         return f'Post:{self.title}'
@@ -99,6 +99,9 @@ class Comment(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def delete_comment(self):
+        db.session.delete(self)
+        db.session.commit()
 
     @classmethod
     def get_comments(cls, id):
@@ -108,12 +111,13 @@ class Comment(db.Model):
     def __repr__(self):
         return f'Post:{self.comment}'
 
-class Subscribers(UserMixin, db.Model):
+class Subscriber(UserMixin, db.Model):
 
     __tablename__ = "subscribers"
 
     id= db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, unique=True)
+
 
     def save_subscriber(self):
         db.session.add(self)

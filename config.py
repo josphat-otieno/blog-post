@@ -11,7 +11,6 @@ class Config:
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     UPLOADED_PHOTOS_DEST = 'app/static/photos'
-    SQLALCHEMY_DATABASE_URI='postgresql+psycopg2://jose:joseotis45@localhost/blog'
     
 
 
@@ -21,7 +20,7 @@ class ProdConfig(Config):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
 
 class TestConfig(Config):
-    pass
+    SQLALCHEMY_DATABASE_URI='postgresql+psycopg2://jose:joseotis45@localhost/blog_test'
 
 class DevConfig(Config):
     '''

@@ -1,11 +1,10 @@
-from datetime import timedelta
-from sqlalchemy.sql.schema import Index
+
 from ..request import get_random_quote
 from flask import render_template, request, redirect ,url_for ,abort,flash
 from . import main
 from .. import db, photos
 from flask_login import login_required, current_user
-from app.models import Post, User,Comment, Subscribers
+from app.models import Post, User,Comment, Subscriber
 from .forms import PostForm,CommentsForm, SubscriptionForm, UpdateProfile
 from  ..email import mail_message
 
@@ -141,12 +140,12 @@ def subscription():
     subscription_form= SubscriptionForm()
     try:
         if subscription_form.validate_on_submit():
-            subscriber = Subscribers(email = subscription_form.email.data)
+            subscriber = Subscriber(email = subscription_form.email.data)
             db.session.add(subscriber)
             db.session.commit()
             flash('Thank you for subscribing to our services, You will recieve daily updates on new blogs')
-            mail_message("Welcome to Blog On","email/welcome",subscriber.email,subscriber=subscriber)
-            print("sent")
+            mail_message("Welcome to Blogging","email/welcome_user",subscriber.email,subscriber=subscriber)
+
             return redirect(url_for('main.index'))
     except:
         return redirect(url_for('main.index'))

@@ -22,7 +22,7 @@
 <div class="container-fulid" style="background-color: #14213d;">
     <div class="container" style="margin-top: 3px;">
         <div>
-            <h2 class="text text-center text-success">DAILY QUOTES</h2>
+            <h2 class="text text-center text-success">DAILY RANDOM QUOTES</h2>
             <p style="font-family: Lobster; text-align: center; font-size: 40px; color: honeydew;" >{{quote.quote}}</p>
             <h2 style="font-family: Lobster; text-align: center; color: honeydew;">~ {{quote.author}} ~</h2>
         </div>
@@ -40,11 +40,10 @@
                 <p style="font-family: Courgette ; font-size: 20px;">Dated: {{post.date_posted.date()}}  Time:{{post.date_posted.time()}}</p>
                 <a href="{{url_for('main.new_Comment',id=post.id)}}" class="btn btn-success">Comment</a>
                 {% if current_user.is_authenticated %}
-                <a href="{{url_for('main.updatePost',id = post.id)}}" class="btn btn-info btn-md">Edit Post</a>
-                        <a href="{{url_for('main.deletePost',id=post.id)}}" class="btn btn-info btn-md">Delete Post</a>
+                <a href="{{url_for('main.updatePost',id = post.id)}}" class="btn btn-warning btn-md">Edit Post</a>
+                        <a href="{{url_for('main.deletePost',id=post.id)}}" class="btn btn-danger btn-md">Delete Post</a>
                         {% endif %}
             </div>
-
         </div>       
       {% endfor %}  
 </div>

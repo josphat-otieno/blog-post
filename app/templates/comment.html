@@ -16,18 +16,19 @@
                 {{wtf.quick_form(comment_form)}}
             </div>
         </div>
+        <h4 style="color: honeydew; font-size: larger; font-style: italic;">Click on comment button twice to display your comment</h4>
         <hr>
         <h1 class="text text-center text-success">COMMENTS:</h1>
+        
         {% if comments %}
         {% for comment in comments %}
-        <div class="row text-center">
-        </div>
-        <div class="panel">
+       
+        <div class="panel" style="margin-left: 20pxpx;">
             <h3>Posted by: {{comment.name}}</h3>
             <p style="font-family: Pangolin; font-size: large; font-weight: bold;">{{ comment.comment }}</p>
             <p style="font-style: italic; font-size: large;">{{comment.date.date()}} at {{comment.date.time()}}</p>
             {% if current_user.is_authenticated %}
-            <a href="{{url_for('main.deleteComment',id=comment.id)}}">Delete Comment</a>
+            <button class="btn btn-info"> <a href="{{url_for('main.deleteComment',id=comment.id)}}" style="font-size: 25px; color: honeydew;">Delete Comment</a></button>
             {% endif %}
         </div>
         <hr>
