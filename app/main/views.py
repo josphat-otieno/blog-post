@@ -1,6 +1,6 @@
 from datetime import timedelta
 from sqlalchemy.sql.schema import Index
-from ..requests import get_random_quote
+from ..request import get_random_quote
 from flask import render_template, request, redirect ,url_for ,abort,flash
 from . import main
 from .. import db, photos
