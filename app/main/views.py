@@ -90,7 +90,7 @@ def deleteComment(id):
     comment =Comment.query.get_or_404(id)
     db.session.delete(comment)
     db.session.commit()
-    flash('comment succesfully deleted')
+    
     return redirect (url_for('main.new_Comment', id=id)) 
 
 @main.route('/user/<name>')
@@ -146,7 +146,7 @@ def subscription():
             flash('Thank you for subscribing to our services, You will recieve daily updates on new blogs')
             mail_message("Welcome to Blogging","email/welcome_user",subscriber.email,subscriber=subscriber)
 
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main.subscription'))
     except:
         return redirect(url_for('main.index'))
 

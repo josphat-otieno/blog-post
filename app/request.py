@@ -1,16 +1,19 @@
-import requests
-
+import urllib.request,json
 from .models import Quote
 
-url = "http://quotes.stormconsultancy.co.uk/random.json"
+quote_url = "http://quotes.stormconsultancy.co.uk/random.json"
 
 
 def get_random_quote():
-    '''
-    method to random quotes by consuming the quotes API
-    '''
-    quote_response = requests.get(url).json()
+ 
 
-    random_quote = Quote(quote_response.get("author"), quote_response.get("quote"))
+    with urllib.request.urlopen(quote_url) as url:
+        random_quote_data=url.read()
+        random_quote_response= json.loads(random_quote_data)
 
-    return random_quote
+        author=random_quote_response.get('author')
+        quote=random_quote_response.get('quote')
+
+        quote= Quote(author,quote)
+
+        return quote
