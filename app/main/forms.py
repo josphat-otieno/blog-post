@@ -15,7 +15,7 @@ class CommentsForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField("Title", validators=[Required()])
     content = TextAreaField("Wrie your blog..", validators=[Required()])
-    submit = SubmitField("Submit Pitch")
+    submit = SubmitField("Submit Blog")
 
 class SubscriptionForm(FlaskForm):
     email= StringField("Enter a valid email address", validators=[Required()])
